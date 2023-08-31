@@ -1,0 +1,50 @@
+ 0  DEF  FN LOC(X) = 8192 + X + (Y * 60): DEF  FN MAZE(X) =  PEEK ( FN LOC(X)): DEF  FN N(X) =  PEEK ( - 16336) +  PEEK ( - 16336) +  PEEK ( - 16336) +  PEEK ( - 16336): DEF  FN S(X) =  PEEK ( - 16336) +  PEEK ( - 16336): DEF  FN GMAZE(I) =  PEEK (8192 + GX(I) + (GY(I) * 60))
+ 1  SCALE= 1: PRINT "BLOADPAC.SHAPES.SHP,A$6000": POKE 232,0: POKE 233,96: GOSUB 1000
+ 10  GOSUB 2000
+ 100 XO = X:YO = Y:RO = R:SO = S:PX = XP:PY = YP: IF  PEEK (49167) > 128 THEN  GET A$
+ 110  IF A$ = "A" THEN YP =  - 1:XP = 0:R = 48
+ 120  IF A$ = "Z" THEN YP = 1:XP = 0:R = 16
+ 130  IF A$ = "" THEN XP = 1:YP = 0:R = 1
+ 140  IF A$ = "" THEN XP =  - 1:YP = 0:R = 32
+ 141  IF SD = 254 THEN 200
+ 142  IF  FN MAZE(X) = 5 AND X = 2 THEN X = 57
+ 144  IF  FN MAZE(X) = 5 AND X = 58 THEN X = 5
+ 145 X = X + XP: IF  FN MAZE(X) = 0 THEN X = XO:R = RO:YP = PY
+ 146 Y = Y + YP: IF  FN MAZE(X) = 0 THEN Y = YO:R = RO:XP = PX:X = X + XP: IF  FN MAZE(X) = 0 THEN X = XO:R = RO:YP = PY
+ 147  IF  FN MAZE(X) = 2 THEN  POKE  FN LOC(X),1: XDRAW 5 AT X,Y:SD = SD + 1:Z =  FN S(0)
+ 148  IF  FN MAZE(X) = 3 THEN  POKE  FN LOC(X),1: XDRAW 4 AT X,Y:G = 1:SD = SD + 10:EN = 100: PRINT " ";
+ 149  IF EN > 0 THEN EN = EN - 1:Z =  FN N(0)
+ 150 S = (S + 1) * (S <  > 3) + (S = 3): ROT= RO: XDRAW SO AT XO,YO: ROT= R: XDRAW S AT X,Y
+ 160  FOR I = 0 TO NG:OY = YP(I):OX = XP(I):XO(I) = GX(I):YO(I) = GY(I): IF  NOT YP(I) THEN 167
+ 161  IF X < GX(I) THEN XP(I) =  - 1 + (2 * (EN > 0)):YP(I) = 0
+ 162  IF X > GX(I) THEN XP(I) = 1 - (2 * (EN > 0)):YP(I) = 0
+ 163 GX(I) = XO(I) + XP(I): IF  FN GMAZE(I) = 0 THEN XP(I) = OX:YP(I) = OY
+ 164  GOTO 179
+ 167  IF Y > GY(I) THEN YP(I) = 1 - (2 * (EN > 0)):XP(I) = 0
+ 168  IF Y < GY(I) THEN YP(I) =  - 1 + (2 * (EN > 0)):XP(I) = 0
+ 169 GY(I) = YO(I) + YP(I): IF  FN GMAZE(I) = 0 THEN YP(I) = OY:XP(I) = OX
+ 179 GX(I) = XO(I) + XP(I):GY(I) = YO(I) + YP(I): IF  FN GMAZE(I) <  > 0 OR (XP(I) = 0 AND YP(I) = 0) THEN 186
+ 180  IF XP(I) <  > 0 THEN XP(I) = 0:YP(I) = 1: GOTO 182
+ 181 YP(I) = 0:XP(I) = 1
+ 182 GX(I) = XO(I) + XP(I):GY(I) = YO(I) + YP(I): IF  FN GMAZE(I) <  > 0 THEN 186
+ 183 XP(I) =  - XP(I):YP(I) =  - YP(I):GX(I) = XO(I) + XP(I):GY(I) = YO(I) + YP(I)
+ 186  IF  FN GMAZE(I) = 5 AND GX(I) = 2 THEN GX(I) = 57
+ 187  IF  FN GMAZE(I) = 5 AND GX(I) = 58 THEN GX(I) = 5
+ 188  IF  RND (1) > .95 THEN XP(I) =  - XP(I):YP(I) =  - YP(I)
+ 189  IF (GX(I) = X OR GX(I) + 1 = X OR GX(I) - 1 = X) AND (GY(I) = Y OR GY(I) + 1 = Y OR GY(I) - 1 = Y) AND EN THEN GY(I) = 35:GX(I) = 30:XP(I) = 0:YP(I) = 0::SG = SG + 100 * G ^ 2:G = G + 1
+ 190  IF (GX(I) = X OR GX(I) + 1 = X OR GX(I) - 1 = X) AND (GY(I) = Y OR GY(I) + 1 = Y OR GY(I) - 1 = Y) AND  NOT EN THEN  GOSUB 300
+ 191  IF GX(I) = 30 AND GY(I) = 35 AND  RND (1) > .95 AND  NOT EN THEN GX(I) = 30:GY(I) = 27:XP(I) = 1
+ 192  ROT= 0: XDRAW 5 + SO AT XO(I),YO(I): XDRAW 5 + S AT GX(I),GY(I)
+ 193  NEXT : IF  NOT YD THEN 100
+ 194  GOTO 310
+ 200 L = L + 1:M = M + 1:SC = SD + SG + SC:SD = 0:SG = 0: GOSUB 2000: GOTO 100
+ 300 M = M - 1: IF M <  - 1 THEN  HOME : TEXT : HTAB 10: VTAB 12:SC = SD + SG + SC: PRINT "THE END   SCORE:"SC: VTAB 24: HTAB 2: PRINT "PRESS ANY KEY TO PLAY AGAIN";: GET A$: PRINT : RUN 
+ 305 YD = 1: RETURN 
+ 310  FOR I = 0 TO NG: ROT= 0: XDRAW 5 + S AT GX(I),GY(I):GX(I) = 30:GY(I) = 35:XP(I) = 0:YP(I) = 0: NEXT : XDRAW 2 AT ((M + 1) * 6) + 2,75: ROT= R: XDRAW S AT X,Y:X = 30:Y = 55: ROT= 0: XDRAW S AT X,Y:XP = 0:YP = 0:GY(2) = 27:XP(2) = 1:R = 0: FOR I = 0 TO NG: XDRAW 5 + S AT GX(I),GY(I): NEXT 
+ 330 YD = 0: GOTO 100
+ 999  END 
+ 1000  DIM Y%(191): FOR X = 0 TO 23: READ A: FOR I = 0 TO 7:Y%(Y + I) = 8192 + A + 1024 * I: NEXT :Y = Y + 8: NEXT : DATA 8192,8320,8448,8576,8704,8832,8960,9088,8232,8360,8488,8616,8744,8872,9000,9128,8272,8400,8528,8656,8784,8912,9040,9168: RETURN 
+ 2000  PRINT : PRINT "BLOADPAC":I = 0:EN = 0: HGR2 : FOR X = 0 TO 10: FOR Y = 0 TO 70: POKE Y%(Y) + X, PEEK (12531 + I):I = I + 1: NEXT : NEXT 
+ 2001 YP(0) = 0:YP(1) = 0:XP(0) = 0:XP(1) = 0:GX(0) = 30:GY(0) = 35:XO(0) = 30:YO(0) = 35:GX(1) = 30:GY(1) = 35:XO(1) = 30:YO(1) = 35:GX(2) = 30:GY(2) = 27:XO(2) = 30:YO(2) = 27:YP(2) = 1:XP(2) = 0:NG = 2:M = 2: FOR I = 0 TO NG: XDRAW 6 AT XO(I),YO(I): NEXT 
+ 2020 R = 1:RO = 1:S = 1:X = 30:Y = 55:SO = 1:XO = 30:YO = 55: ROT= 1: XDRAW SO AT XO,YO: FOR I = 0 TO M: XDRAW 2 AT (I * 6) + 2,75: NEXT : RETURN 
+ 3000 A$ = "1111511111111112111111000000000":Y = 35: FOR X = 0 TO 30:AA$ =  MID$ (A$,X + 1,1): POKE 8192 + X + (Y * 60), VAL (AA$): POKE 8192 + (60 - X) + (Y * 60), VAL (AA$): NEXT 
