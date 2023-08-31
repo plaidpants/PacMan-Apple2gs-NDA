@@ -7,7 +7,11 @@ Old apples2gs new desk accessory pacman clone I made using TML Pascal
 
 
 PACMAN.320 binary sprites file for 320 16 color display, custom format
+
 PACMAN.640 binary sprites file for 640 4 color display, custom format
+
 PACMAN.MAZE text file representing the left half of the maze, mirrored for the full maze
+
 PACMAN.P TML Pascal source code for apple2gs pacman NDA
+
 ARCADE.P ML Pascal source code for apple2gs pacman NDA (not sure what the differences are)
