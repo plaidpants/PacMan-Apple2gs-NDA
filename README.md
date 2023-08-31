@@ -15,3 +15,7 @@ PACMAN.MAZE text file representing the left half of the maze, mirrored for the f
 PACMAN.P TML Pascal source code for apple2gs pacman NDA
 
 ARCADE.P TML Pascal source code for apple2gs pacman NDA (not sure what the differences are)
+
+I originally made a version for the apple2 in Applesoft BASIC but it was really slow.
+
+![image](https://github.com/plaidpants/PacMan-Apple2gs-NDA/assets/8979271/45d4752f-1d68-4478-91bf-6affc86f8f63)
